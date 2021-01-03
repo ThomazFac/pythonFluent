@@ -4,14 +4,15 @@ Interface for [**Ansys Fluent**][ansys-fluent] to drastically reduce time for se
 [ansys-fluent]: https://www.ansys.com/products/fluids/ansys-fluent
 
 ## Install
-'''sh
+```sh
 # With pip
 pip install pythonfluent
-'''
-'''sh
+```
+
+```sh
 # With git
 git clone https://github.com/rap7or/pythonFluent
 cd pythonfluent/
 python3 install.py
-'''
+```
 
