@@ -84,7 +84,7 @@ pressure-far-field  far-field, [0.8, 0], staticPressure=3e4, temperature=240
 wall                airfoil, no-slip, temperature=240
 methods             pressure=SOU, momentum=SOU, nu=SOU
 initialize          hybrid-initialization, 10
-run                 iterations=200, gui=false, plot-residuals=true
+calculate           iterations=200, gui=false, plot-residuals=true
 export-data         cgns, NACA2602_transonic, axial-velocity, radial-velocity, static-pressure, density
 save-case           NACA2602
 save-data           NACA2602
