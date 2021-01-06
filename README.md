@@ -19,7 +19,7 @@ python3 install.py
 
 ## Quickstart
 The recommended way to learn ```pythonFluent``` is to go through the tutorials in the ```tutorials/``` folder and 
-run the examples in the ```examples/``` folder. Furthermore, a read-the-docs page with the complete documentation of the 
+to check out the examples in the ```examples/``` folder. Furthermore, a read-the-docs page with the complete documentation of the 
 project can be found [**here**][read-the-docs]. 
 
 [read-the-docs]: https://read-the-docs.io
@@ -28,39 +28,42 @@ A quick example of how a `pythonFluent` input script for setting up, running and
 
 ``` python
 #/usr/bin/python
-# file: NACA2602.py
+# file: NACA0012.py
 import pythonFluent
 
 # Initialize the simulation 
 case1 = pythonFluent.Simulation('2d-planar')
 
 # Import mesh and set the solver
-case1.readMesh('NACA2602.msh')
+case1.readMesh('NACA0012.msh')
 case1.solver('pressure-based', 'coupled')
 
-# Set the turbulence model, activate the energy equation and use compressible air for your simulation
+# Set the turbulence model, set the energy equation and material properties
 case1.turbulenceModel('spalart-allmaras', 'strain-vorticity-based')
 case1.energy('yes')
 case1.material('air', density='ideal-gas', viscosity='sutherland')
-case1.cellZone(name='domain', fluid='air')
+case1.cellZone(name='domain', 'fluid', material='air')
 
 # Define boundary conditions
-case1.boundaryCondition.pressureFarfield('farfield', components=[0.8, 0], staticPressure=3e4, temperature=240)
+case1.boundaryCondition.pressureFarfield('farfield', components=[0.8, 0], 
+                                          staticPressure=3e4, temperature=240)
 case1.boundaryCondition.wall('airfoil', slip='no', temperature=240)
 
 # Set the discretization
-case1.methods(pressure='second-order-upwind', momentum='second-order-upwind', nu='second-order-upwind')
+case1.methods(pressure='second-order-upwind', momentum='second-order-upwind', 
+              nu='second-order-upwind')
 
 # Initialize and run
 case1.initialize('hybrid-initialization', 10)
 runCase(case1, iterations=200, GUI=False, plotResiduals=True)
 
 # Export .cgns files and save case
-case1.exportData('NACA2602_transonic.cgns', 'axial-velocity', 'radial-velocity', 'static-pressure', 'density')
-case1.saveCase('NACA2602')
-case1.saveData('NACA2602')
+case1.exportData('NACA0012_transonic.cgns', 'axial-velocity', 'radial-velocity',
+                 'static-pressure', 'density')
+case1.saveCase('NACA0012')
+case1.saveData('NACA0012')
 ```
-Just run the script using ```python3 NACA2602.py```
+Just run the script using ```python3 NACA0012.py```.
 
 ## New input script file type
 The problem with using the Fluent commands (which are written in SCHEME) is that a small typo or wrongly 
@@ -72,9 +75,10 @@ with the new input script type.
 Consider the Python script shown in the [previous headline](## Quickstart). With the new input script type, the same script would look like this:
 
 ```
-# file: NACA2602.in
+# file: NACA0012.in
+
 dimension           2d-planar
-read-mesh           NACA2602.msh
+read-mesh           NACA0012.msh
 solver              pressure-based, coupled, pseudo-transient
 turbulence-model    spalart-allmaras, strain-vorticity-based
 energy              yes
@@ -82,12 +86,16 @@ material            air, ideal-gas, viscosity=sutherland
 cell-zone           domain, fluid, air
 pressure-far-field  far-field, [0.8, 0], staticPressure=3e4, temperature=240
 wall                airfoil, no-slip, temperature=240
-methods             pressure=SOU, momentum=SOU, nu=SOU
+methods             pressure=second-order, momentum=second-order-upwind, 
+                    nu=second-order-upwind
 initialize          hybrid-initialization, 10
 calculate           iterations=200, gui=false, plot-residuals=true
-export-data         cgns, NACA2602_transonic, axial-velocity, radial-velocity, static-pressure, density
-save-case           NACA2602
-save-data           NACA2602
+export-data         cgns, NACA0012_transonic, axial-velocity, radial-velocity, 
+                    static-pressure, density
+save-case           NACA0012
+save-data           NACA0012
 ```
-All done in 16 lines of code! 
+All done in 16 lines of code! You can run the input file by importing it with the pythonFluent module
+and executing the Python script. However, it is recommended to directly run the script using the command
+`pythonfluent NACA0012.in`.
 
