@@ -24,7 +24,7 @@ project can be found [**here**][read-the-docs].
 
 [read-the-docs]: https://read-the-docs.io
 
-A quick example of how a `pythonFluent` input script for setting up, running and saving an Ansys Fluent looks like and how easy it is to use consider a transonic airfoil at ```Ma = 0.8```:
+A quick example of how a `pythonFluent` input script is created including running and saving an Ansys Fluent simulation, consider a transonic airfoil case at ```Ma = 0.8```:
 
 ``` python
 #/usr/bin/python
@@ -69,16 +69,17 @@ Just run the script using ```python3 NACA0012.py```.
 The problem with using the Fluent commands (which are written in SCHEME) is that a small typo or wrongly 
 set bracket will make execution unsuccessful. Sometimes, changing settings of your simulation results in minutes spent on finding the correct command. Therefore, a new input script type has been developed based on 
 the `pythonFluent` module to drastically improve the setup of a new simulation as user-friendly as possible. Another advantage is
-that this approach allows massive parametrization of your models for design and optimization by combining the `pythoneFluent` module
+that this approach allows massive parametrization of your models for design and optimization by combining the `pythonFluent` module
 with the new input script type.
 
-Consider the Python script shown in the [previous headline](## Quickstart). With the new input script type, the same script would look like this:
+Consider the Python script shown in the [previous headline](## Quickstart). With the new input script type, the translated Python script would look like this:
 
-```
+``` sh
 # file: NACA0012.in
 
 dimension           2d-planar
 read-mesh           NACA0012.msh
+time                steady-state
 solver              pressure-based, coupled, pseudo-transient
 turbulence-model    spalart-allmaras, strain-vorticity-based
 energy              yes
@@ -92,10 +93,9 @@ initialize          hybrid-initialization, 10
 calculate           iterations=200, gui=false, plot-residuals=true
 export-data         cgns, NACA0012_transonic, axial-velocity, radial-velocity, 
                     static-pressure, density
-save-case           NACA0012
-save-data           NACA0012
+save-case-data      NACA0012
 ```
-All done in 16 lines of code! You can run the input file by importing it with the pythonFluent module
+All done in 16 lines! You can run the input file by importing it with the pythonFluent module
 and executing the Python script. However, it is recommended to directly run the script using the command
 `pythonfluent NACA0012.in`.
 

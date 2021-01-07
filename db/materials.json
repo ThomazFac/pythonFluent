@@ -1,0 +1,265 @@
+{
+    "acetone" : {
+        "type" : ["fluid"],
+        "chemicalFormula" : "c3h6o",
+        "density" : {
+            "constant" : 791,
+            "compressible-liquid" : [791.0, 920000000.0, 7.0, 1.1, 0.9]
+        },
+        "specific-heat" : {
+            "constant" : 2160
+        },
+        "thermal-conductivity" : {
+            "constant" : 0.18
+        },
+        "viscosity" : {
+            "constant" : 0.000331
+        },
+        "molecular-weight" : {
+            "constant" : 58.0498
+        },
+        "critical-pressure" : {
+            "constant" : 4.7e6
+        },
+        "critical-temperature" : {
+            "constant" : 508.1
+        },
+        "acentric-factor" : {
+            "constant" : 0.307
+        },
+        "critical-volume" : {
+            "constant" : 0.0036
+        }
+    },
+
+    "air" : {
+        "type" : ["fluid"],
+        "chemicalFormula" : "n2o2arco2",
+        "density" : {
+            "constant" : 1.225,
+            "compressible-liquid" : [101325, 1.225, 1.42e+05, 1, 1.1, 0.9]
+        },
+        "specific-heat" : {
+            "constant" : 1006.43,
+            "piecewise-polynomial" : {
+                "range0" : [100, 1000],
+                "coeffs0" : [1161.48214452351, -2.36881890191577, 1.48551108358867E-02, -5.03490927522584E-05, 9.9285695564579E-08, -1.11109658897742E-10, 6.54019600406048E-14, -1.57358768447275E-17],
+                "range1" : [1000, 3000],
+                "coeffs1" : [-7069.81410143802, 33.7060506468204, -5.81275953375815E-02, 5.42161532229608E-05, -2.936678858119E-08, 9.23753316956768E-12, -1.56555339604519E-15, 1.11233485020759E-19]
+            }
+        },
+        "thermal-conductivity" : {
+            "constant" : 0.0242
+        },
+        "viscosity" : {
+            "constant" : 1.7894e-5,
+            "sutherland" : [1.716e-5, 273.11, 110.56],
+            "power-law" : [1.716e-05, 273.11, 0.666]
+        },
+        "molecular-weight" : {
+            "constant" : 28.966
+        },
+        "lennard-jones-length" : {
+            "constant" : 3.711
+        },
+        "lennard-jones-energy" : {
+            "constant" : 78.6
+        },
+        "thermal-accom-coefficient" : {
+            "constant" : 0.9137
+        },
+        "velocity-accom-coefficient" : {
+            "constant" : 0.9137
+        },
+        "formation-entropy" : {
+            "constant" : 194336
+        },
+        "critical-pressure" : {
+            "constant" : 3.758e6
+        },
+        "critical-temperature" : {
+            "constant" : 132.2
+        },
+        "acentric-factor" : {
+            "constant" : 0.033
+        },
+        "critical-volume" : {
+            "constant" : 0.002857
+        }
+    },
+
+    "aluminum" : {
+        "type" : ["solid"],
+        "chemicalFormula" : "al",
+        "density" : {
+            "constant" : 2719
+        },
+        "specific-heat" : {
+            "constant" : 871,
+            "piecewise-polynomial" : {
+                "range0" : [100, 1000],
+                "coeffs0" : [1161.48214452351, -2.36881890191577, 1.48551108358867E-02, -5.03490927522584E-05, 9.9285695564579E-08, -1.11109658897742E-10, 6.54019600406048E-14, -1.57358768447275E-17],
+                "range1" : [1000, 3000],
+                "coeffs1" : [-7069.81410143802, 33.7060506468204, -5.81275953375815E-02, 5.42161532229608E-05, -2.936678858119E-08, 9.23753316956768E-12, -1.56555339604519E-15, 1.11233485020759E-19]
+            }
+        },
+        "thermal-conductivity" : {
+            "constant" : 202.4
+        },
+        "atomic-number" : {
+            "constant" : 13
+        },
+        "formation-entropy" : {
+            "constant" : 164448.08
+        },
+        "electric-conductivity" : {
+            "constant" : 3.541e7
+        },
+        "magnetic-permeability" : {
+            "constant" : 1.257e-6
+        },
+        "struct-youngs-modulus" : {
+            "constant" : 7.0e10
+        },
+        "struct-poisson-ratio" : {
+            "constant" : 0.32
+        }
+    },
+
+    "argon" : {
+        "type" : ["fluid", "inert-particle"],
+        "chemicalFormula" : "ar",
+        "density" : {
+            "constant" : 1.6228
+        },
+        "specific-heat" : {
+            "constant" : 520.64,
+            "piecewise-polynomial" : {
+                "range0" : [300, 1000],
+                "coeffs0" : [520.32264, 0, 0, 0, 0],
+                "range1" : [1000, 5000],
+                "coeffs1" : [520.32264, 0, 0, 0, 0]
+            }
+        },
+        "thermal-conductivity" : {
+            "constant" : 0.0158
+        },
+        "formation-enthalpy" : {
+            "constant" : -3117.7105
+        },
+        "molecular-weight" : {
+            "constant" : 39.948
+        },
+        "viscosity" : {
+            "constant" : 2.125e-5,
+            "sutherland" : [2.125e-05, 273.11, 144.4],
+            "power-law" : [2.125e-05, 273.11, 0.72]
+        },
+        "reference-temperature" : {
+            "constant" : 298.15
+        },
+        "thermal-accom-coefficient" : {
+            "constant" : 0.9137
+        },
+        "velocity-accom-coefficient" : {
+            "constant" : 0.9137
+        },
+        "formation-entropy" : {
+            "constant" : 154719.34
+        },
+        "Critical-pressure" : {
+            "constant" : 4.8980e6
+        },
+        "critical-temperature" : {
+            "constant" : 150.86
+        },
+        "critical-volume" : {
+            "constant" : 0.00187
+        },
+        "acentric-factor" : {
+            "constant" : -0.002
+        }
+    },
+
+    "water" : {
+        "type" : ["fluid", "inert-particle", "droplet-particle"],
+        "chemicalFormula" : "h2o<l>",
+        "density" : {
+            "constant" : 998.2,
+            "comressible-liquid" : [101325, 998.2, 2.2e9, 7.15, 1.1, 0.9]
+        },
+        "specific-heat" : {
+            "constant" : 4182,
+            "piecewise-linear" : {
+                "x" : [280, 300, 320, 340, 360, 373, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580],
+                "y" : [4201, 4181, 4181, 4188, 4202, 4216, 4256, 4299, 4357, 4433, 4553, 4664, 4838, 5077, 5424, 5969]
+            }
+        },
+        "latent-heat" : {
+            "constant" : 22630373
+        },
+        "vaporization-temperature" : {
+            "constant" : 284
+        },
+        "boiling-point" : {
+            "constant" : 373
+        },
+        "volatile-fraction" : {
+            "constant" : 1
+        },
+        "binary-diffusivity" : {
+            "film-averaged" : {
+                "averaging-coefficient" : 0.3333,
+                "film-diffusivity" : {
+                    "piecewise-linear" : {
+                        "x" : [273, 300, 313, 350, 373, 400, 450, 473],
+                        "y" : [2.92E-5, 3.40E-5, 3.80E-5, 4.29E-5, 5.28E-5, 5.76E-5]
+                    }
+                },
+                "constant" : 3.05e-5
+            },
+            "constant" : 3.05e-5
+        },
+        "thermal-conductivity" : {
+            "constant" : 0.6
+        },
+        "viscosity" : {
+            "constant" : 0.001003
+        },
+        "dpm-surften" : {
+            "constant" : 0.0719404,
+            "piecewise-polynomial" : {
+                "range0" : [50, 641],
+                "coeffs0" : [6.49503e-02, 2.46819e-04, -9.28884e-07, 6.01831e-10]
+            }
+        },
+        "vapor-pressure" : {
+            "piecewise-linear" : {
+                "x" : [273, 274, 275, 280, 284, 290, 295, 300, 307, 310, 315, 320, 325, 330, 340, 350, 356, 360, 370, 371, 372, 373, 393, 425, 453, 486, 507, 537, 584, 615, 639, 647.14],
+                "y" : [610, 657, 706, 1002, 1329, 1937, 2658, 3565, 5316, 6275, 7974, 10612, 13289, 17308, 26579, 41877, 53158, 62498, 90935, 94295, 97757, 101000, 202000, 505000, 1000000, 2000000, 3000000, 5000000, 10000000, 15000000, 20000000, 22064000]
+            },
+            "constant" : 2658
+        },
+        "molecular-weight" : {
+            "constant" : 18.0152
+        },
+        "species-phase" : {
+            "constant" : 1
+        },
+        "formation-entropy" : {
+            "constant" : 69902.211
+        },
+        "formation-enthalpy" : {
+            "constant" : -2.8584122e8
+        },
+        "reference-temperature" : {
+            "constant" : 298
+        },
+        "lennard-jones-length" : {
+            "constant" : 1.0
+        },
+        "lennard-jones-energy" : {
+            "constant" : 100.0
+        }
+    }
+}

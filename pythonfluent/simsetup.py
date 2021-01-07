@@ -795,15 +795,44 @@ class Simulation:
         """
         Set the boundary conditions of your simulation.
         """
-        def velocityInlet(self, name, components=[0,0,0], normalToBoundary=0, staticPressure=0, turbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
-            if self._energy == False:  # incompressible case
-                pass
-            elif self._energy == True:  # compressible case
-                pass
+
+        tempString = ""
+
+        def velocityInlet(self, name, components=[0,0,0], normalToBoundary='no', magnitude=0, staticPressure=0,
+                          turbulenceIntensity=5, turbulentViscosityRatio=10, k=0, epsilon=0, omega=0, hydraulicDiameter=0, staticTemperature=300):
+
+            if (len(set(components)) == 1) and normalToBoundary == 'yes' and int(magnitude) != 0:  # if no components were given
+
+                # Turbulence parameters
+                if k != 0 and hydraulicDiameter == 0 :  # consider k not turbulence intensity
+                    if epsilon != 0 and omega == 0:
+                        pass
+                    elif epsilon == 0 and omega != 0:
+                        pass
+                    else:
+                        print("\nInvalid turbulent inlet conditions specified for k and epsilon / omega. Either epsilon or omega must be not equal 0.")
+                        sys.exit()
+                elif k == 0 and hydraulicDiameter != 0:
+                    pass
+                else:
+                    print("\nInvalid turbulent inlet conditions specified. Either k or hydraulicDiameter must be not equal 0.")
+                # tempString += ""
+                if self._energy == True:
+                    #tempStrig += "".format(staticTemperature)
+                    pass  # set T_s at velocity inlet
+
+            elif (len(set(components)) != 1) and normalToBoundary == 'no' and int(magnitude) == 0:  # if components are given
+                u, v, w = components[0], components[1], components[2]  # spatial velocity components
+                if self._energy == True:
+                    #tempString += "".format(staticTemperature)
+                    pass  # set T_s at velocity inlet
             else:
-                print("\nInvalid energy formulation")
+                print("\nInvalid definition of velocity inlet conditions. Specify either normalToBoundary=\'yes\' or velocity components.")
                 sys.exit()
-        def massflowInlet(self, name, components=[0,0,0], normalToBoundary=0, massFlux=0, staticPressure=0, turbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
+
+
+        def massflowInlet(self, name, components=[0,0,0], normalToBoundary=0, massFlux=0, staticPressure=0,
+                          urbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
             pass
         def pressureFarfield(self, name, components=[0,0,0], staticPressure=0, turbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
             if self._energy == False:  # incompressible case
@@ -817,11 +846,12 @@ class Simulation:
         def pressureInlet(self, name, totalPressure=0, staticPressure=0, components=[0,0,0], turbulenceIntensity=5, turbulentViscosityRatio=10, totalTemperature=300):
             pass
 
-        def wall(self, name, slip='no', temperature=300, surfaceRoughness=[0.5, 1e-5]):
+        def wall(self, name, slip='no', temperature=300, surfaceRoughness=[0.5, 1e-5], specifiedShear=[0, 0, 0], mahangoniStress=0):
             pass
 
-        def pressureOutlet(self, name, gaugePressure=0, staticTemperature=300):
+        def pressureOutlet(self, name, gaugePressure=0, staticTemperature=300, normalToBoundary='yes', pressureSpecification='static-pressure'):
             pass
+
         def outflow(self, name):
             pass
 
@@ -829,17 +859,26 @@ class Simulation:
             pass
 
 
+    def cellZone(self, name, state='fluid', material='air'):
+        """
+        Set the cell zone properties.
 
+        ----------
+        Parameters
+        ----------
+        #1 name         :   str, name of the cell zone
+        """
 
+        tempString = ""
 
-    def cellZones(self, **kwargs):
+        name, state, material = '-'.join(material.split()).lower()
         pass
 
     def interfacesStuff(self, **kwargs):
         pass
 
 
-    def methods(self, scheme='coupled', formulation='implicit', fluxType='roe-fds', skewnessCorrection=0, neighborCorrection=1, volumeFraction='geo-reconstruct', gradient='least-squares-cell-based', pressure='second-order', momentum='second-order-upwind', 'energy'='second-order-upwind',
+    def methods(self, scheme='coupled', formulation='implicit', fluxType='roe-fds', skewnessCorrection=0, neighborCorrection=1, volumeFraction='geo-reconstruct', gradient='least-squares-cell-based', pressure='second-order', momentum='second-order-upwind', energy='second-order-upwind',
                 density='second-order-upwind', turbulentKineticEnergy='second-order-upwind', turbulentDissipationRate='second-order-upwind', pseudoTransient='yes',
                 warpedFaceGradientCorrection='no', higherOrderTermRelaxation='no', transientFormulation='bounded-second-order-implicit'):
         pass
@@ -964,6 +1003,6 @@ sim1 = Simulation('2d-axisymmetric')
 # runCase(sim1, gui=False, plotResiduals=True)
 
 
-sim1.boundaryCondition.velocityInlet(name='pipeInlet', components: [10, 0, 0], staticPressure: 1e4, turbulenceIntensity: 5, turbulentViscosityRatio: 10, staticTemperature: 298)
-sim1.boundaryCondition.wall(name='duct', slip='no', temperature=300, surfaceRoughness=[0.5, 1e-5])
-sim1.boundaryConditions.pressureOutlet(name='pipeOutlet', gaugePressure=0, staticTemperature=300)
+# sim1.boundaryCondition.velocityInlet(name='pipeInlet', components: [10, 0, 0], staticPressure: 1e4, turbulenceIntensity: 5, turbulentViscosityRatio: 10, staticTemperature: 298)
+# sim1.boundaryCondition.wall(name='duct', slip='no', temperature=300, surfaceRoughness=[0.5, 1e-5])
+# sim1.boundaryConditions.pressureOutlet(name='pipeOutlet', gaugePressure=0, staticTemperature=300)
