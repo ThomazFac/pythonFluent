@@ -1,0 +1,30 @@
+# 3D incompressible CFD validation case of a surface mounted cube at Re=40,000 with detached-eddy-simulation
+# https://www.openfoam.com/documentation/guides/latest/doc/verification-validation-turbulent-surface-mounted-cube.html
+
+# General settings
+dimension           3d
+read-mesh           surface-mounted-cube.msh
+time                transient
+solver              pressure-based, coupled
+import-profile      inlet-profile.prof
+
+# Fluid-dynamic settings
+turbulence-model    des, k-w-sst, iddes
+energy              no
+material            air, density=1.225, viscosity=2.5e-5
+cell-zone           name=domain, state=fluid, material=air
+
+# Boundary conditions
+velocity-inlet      inlet, components=[1,0,0], random turbulent inlet fluctuationsles inlet boundary stuff
+symmetry            names=[left-side, right-side]
+wall                cube, no-slip
+pressure-outlet     outlet
+
+# Numerical settings
+methods             pressure=second-order, momentum=third-order-muscl, k=second-order-upwind, omega=second-order-upwind
+
+# Solution
+initialize          hybrid-initialization, 10
+calculate           time-stepping=fixed, time-step-size=1e-4, number-of-time-steps=10000
+export-data         type=cgns, name=results/smc, every=100, x-velocity, y-velocity, z-velocity, pressure
+save-case-data      results/smc
