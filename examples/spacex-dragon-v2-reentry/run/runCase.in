@@ -1,0 +1,27 @@
+# 3D compressible hypersonic case of a hypersonic re-enrty vehicle using the inviscid euler equations
+# geometry from :
+
+# General settings
+dimension           3d
+read-mesh           dragon_v2.msh
+time                steady-state
+solver              density-based, implicit, roe-fds
+
+# Fluid-dynamic settings
+turbulence-model    inviscid
+energy              yes
+cell-zone           name=domain, state=fluid
+
+# Boundary conditions
+pressure-far-field  farfield, components=[10, 0, 0], temperature=170, turbulenceIntensity=0.05, turbulentViscosityRatio=5
+wall                vehicle
+operating-conditions pressure=1e3, temperature=170
+
+# Numerical settings
+methods             pressure=second-order, momentum=second-order-implicit
+
+# Solution
+initialize          hybrid-initialization, 10
+calculate           iterations=300, no-gui, plot-residuals
+export-data         type=cgns, name=results/dragon_v2, x-velocity, y-velocity, z-velocity, pressure, density, temperature
+save-case-data      results/dragon_v2_reentry

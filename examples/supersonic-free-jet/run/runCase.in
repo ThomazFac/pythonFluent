@@ -1,0 +1,30 @@
+# 3D incompressible CFD validation case of a surface mounted cube at Re=40,000 with detached-eddy-simulation
+# https://www.openfoam.com/documentation/guides/latest/doc/verification-validation-turbulent-surface-mounted-cube.html
+
+# General settings
+dimension           2d-axisymmetric
+read-mesh           jet.msh
+time                steady-state
+solver              pressure-based, coupled, pseudo-transient
+
+# Fluid-dynamic settings
+turbulence-model    rsm, stress-omega, options=[viscous-heating, compressibility-effects]
+energy              yes
+material            n2, density=ideal-gas, viscosity=sutherland
+cell-zone           name=domain, state=fluid, material=nitrogen
+
+# Boundary conditions
+massflow-inlet      inlet, components=[0.02,0,0], static-pressure=2e6, static-temperature=415,
+                    turbulence-intensity=0.1, turbulent-viscosity-ratio=5
+wall                names=[channel, laval-nozzle, outer-nozzle], no-slip, temperature=350
+pressure-outlet     outlet
+
+# Numerical settings
+methods             pressure=second-order, momentum=quick, k=quick, omega=quick
+controls            underrelaxation-factors=default # conservative, aggressive, debug
+
+# Solution
+initialize          hybrid-initialization, 10
+calculate           200,
+export-data         type=cgns, name=results/jet, x-velocity, y-velocity, pressure, density, temperature
+save-case-data      results/jet

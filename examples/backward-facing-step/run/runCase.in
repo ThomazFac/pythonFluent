@@ -1,0 +1,28 @@
+# 3D incompressible CFD validation case of a surface mounted cube at Re=40,000 with detached-eddy-simulation
+# https://www.openfoam.com/documentation/guides/latest/doc/verification-validation-turbulent-surface-mounted-cube.html
+
+# General settings <-- These comments are necessary
+dimension           2d
+read-mesh           bfs.msh
+time                steady-state
+solver              pressure-based, coupled, pseudo-transient
+
+# Fluid-dynamic settings
+turbulence-model    k-epsilon, standard, options=[low-re-corrections, production-limiter, production-kato-launder]
+energy              no
+material            water, density=998, viscosity=1e-3
+cell-zone           name=domain, state=fluid, material=water
+
+# Boundary conditions
+velocity-inlet      inlet, normal-to-boundary=2.438, k=k.prof, epsilon=epsilon.prof
+wall                channel
+pressure-outlet     outlet
+
+# Numerical settings
+methods             pressure=second-order, momentum=quick, k=quick, omega=quick
+
+# Solution
+initialize          hybrid-initialization, 10
+calculate           100
+export-data         type=cgns, name=results/bfs, x-velocity, y-velocity, pressure, strain-rate, skin-friction-coefficient
+save-case-data      results/bfs

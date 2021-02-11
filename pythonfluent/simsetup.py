@@ -36,6 +36,13 @@ class Simulation:
         else:
             print("\nError in simulation declaration, \'dimension\' must be of type 'str'. Allowed dimensions: \'2d-planar\', \'2d-axisymmetric\', \'2d-axisymmetric-swirl\', \'3d\'")
 
+        # Simulation specific settins
+        self.timeStepping = 'steady-state'
+        self.solverScheme = 'coupled'
+        self.solverFormulation = 'implicit'
+        self.fluxType = 'roe-fds'
+
+        # Fluent strings
         self._case = None
         self._import = None
         self._readMesh = None
@@ -109,8 +116,6 @@ class Simulation:
 
     def time(self, time):
         """
-        @type time: str
-
         Set the type of time-formulation for the simulation.
 
         ----------
@@ -124,8 +129,10 @@ class Simulation:
         tempString = ""
 
         if time == "steady-state":
+            self.timeStepping = 'steady-state'
             tempString += """/define models steady? yes"""
         elif time == "transient":
+            self.timeStepping = 'transient'
             tempString += """/define unsteady-1st-order? yes"""
         else:
             print("\nYou entered an invalid parameter for the time-formulation in \'Simulation.time(time)\'. Available time parameters: \'steady-state\', \'transient\'")
@@ -802,7 +809,6 @@ class Simulation:
                           turbulenceIntensity=5, turbulentViscosityRatio=10, k=0, epsilon=0, omega=0, hydraulicDiameter=0, staticTemperature=300):
 
             if (len(set(components)) == 1) and normalToBoundary == 'yes' and int(magnitude) != 0:  # if no components were given
-
                 # Turbulence parameters
                 if k != 0 and hydraulicDiameter == 0 :  # consider k not turbulence intensity
                     if epsilon != 0 and omega == 0:
@@ -832,7 +838,7 @@ class Simulation:
 
 
         def massflowInlet(self, name, components=[0,0,0], normalToBoundary=0, massFlux=0, staticPressure=0,
-                          urbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
+                          turbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
             pass
         def pressureFarfield(self, name, components=[0,0,0], staticPressure=0, turbulenceIntensity=5, turbulentViscosityRatio=10, staticTemperature=300):
             if self._energy == False:  # incompressible case
@@ -871,17 +877,52 @@ class Simulation:
 
         tempString = ""
 
-        name, state, material = '-'.join(material.split()).lower()
-        pass
+        name, state, material = '-'.join(state.split()).lower(), '-'.join(state.split()).lower(), '-'.join(material.split()).lower()
+        tempString += """\n/define/cell-zones {} {} {}""".format(name, state, material)
 
     def interfacesStuff(self, **kwargs):
         pass
 
 
-    def methods(self, scheme='coupled', formulation='implicit', fluxType='roe-fds', skewnessCorrection=0, neighborCorrection=1, volumeFraction='geo-reconstruct', gradient='least-squares-cell-based', pressure='second-order', momentum='second-order-upwind', energy='second-order-upwind',
+    def methods(self, scheme='coupled', formulation='implicit', fluxType='roe-fds', skewnessCorrection=0, neighborCorrection=1, volumeFraction='geo-reconstruct',
+                gradient='least-squares-cell-based', pressure='second-order', momentum='second-order-upwind', energy='second-order-upwind',
                 density='second-order-upwind', turbulentKineticEnergy='second-order-upwind', turbulentDissipationRate='second-order-upwind', pseudoTransient='yes',
                 warpedFaceGradientCorrection='no', higherOrderTermRelaxation='no', transientFormulation='bounded-second-order-implicit'):
-        pass
+
+        tempString = ""
+
+        # Loop over function arguments and clean whitespaces
+        args = locals()
+        for arg in args:
+            eval("{} = '-'.join({}.split()).lower()".format(arg, arg))
+
+        # Check methods based on time-stepping, solver and formulation
+        if self.solverType == 'pressure-based':  # Pressure-based solvers
+            # Time formulation
+            if self.timeStepping == 'steady-state':
+                pass
+            elif self.timeStepping == 'transient':
+                pass
+            # Solver scheme
+            if self.solverScheme == 'coupled':
+                pass
+            elif self.solverScheme == 'simple':
+                pass
+            elif self.solverScheme == 'simplec':
+                pass
+            elif self.solverScheme == 'piso':
+                pass
+        elif self.solverType == 'density-based':  # Density-based solvers
+            if self.solverFormulation == 'implicit':
+                if self.fluxType == 'roe-fds':
+                    pass
+                elif self.fluxType == 'ausm':
+                    pass
+            elif self.solverFormulation == 'explicit':
+                if self.fluxType == 'roe-fds':
+                    pass
+                elif self.fluxType == 'ausm':
+                    pass
 
     def controls(self, courantNumber=200, pressure=0.3, density=1, bodyForces=1, momentum=0.7, turbulentKineticEnergy=0.8, turbulentSpecificDissipation=0.8):
         pass
